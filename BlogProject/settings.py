@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-+l1h!q4qh*ob231wljmn*04wk_+gz32573&$ih+m=d4wl6q+-n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -77,7 +77,7 @@ ROOT_URLCONF = 'BlogProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'blog/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,11 +136,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "/blog/static")
+STATIC_ROOT = os.path.join(BASE_DIR, "/blog/static/")
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'blog/static')
-]
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'blog/media/')
