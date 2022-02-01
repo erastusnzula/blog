@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
@@ -109,7 +111,7 @@ def login_user(request):
     return render(request, "blog/login.html")
 
 
-class ProfileUpdate(View):
+class ProfileUpdate(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         return render(self.request, "blog/profile.html")
 
@@ -127,6 +129,7 @@ class ProfileUpdate(View):
             return redirect('blog:profile')
 
 
+@login_required
 def edit_profile(request):
     try:
         profile = request.user.profile
@@ -137,6 +140,7 @@ def edit_profile(request):
     return render(request, "blog/edit_profile.html", {'form': form, 'u_form': u_form})
 
 
+@login_required
 def user_logout(request):
     logout(request)
     messages.success(request, "Successfully logged out")

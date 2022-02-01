@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-CKEDITOR_UPLOAD_PATH = 'images'
+CKEDITOR_UPLOAD_PATH = os.path.join(BASE_DIR, "blog/static")
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Custom',
@@ -53,9 +53,9 @@ CKEDITOR_CONFIGS = {
             ['Link', 'Unlink'],
             ['RemoveFormat', 'Source'],
             ['CodeSnippet'],
-            ['youtube'],
+            ['Youtube'],
 
-        ], 'extraPlugins': 'codesnippet',
+        ], 'extraPlugins': ','.join(['codesnippet','youtube']),
     }
 }
 
@@ -133,7 +133,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "/blog/static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "blog/static/")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'blog/media/')
