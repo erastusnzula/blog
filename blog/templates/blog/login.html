@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<form hx-encoding='multipart/form-data' hx-post="." hx-target="body">
+    {% csrf_token %}
+    <div class="container mt-5">
+        <h3 class="pb-2 mb-2 border-bottom ">Login into your account</h3>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+</form>
+
+{% endblock content %}

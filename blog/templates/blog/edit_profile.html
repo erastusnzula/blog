@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Edit profile{% endblock %}
+{% block content %}
+
+
+<form hx-encoding='multipart/form-data' hx-post="." hx-target="body">
+    {% csrf_token %}
+    <div class="container mt-3">
+        <h3 class="pb-2 mb-2 border-bottom ">Edit profile</h3>
+        {{ u_form|crispy }}
+        {{ form|crispy }}
+        <button class="btn btn-primary" type="submit">Update</button>
+    </div>
+</form>
+{% endblock %}

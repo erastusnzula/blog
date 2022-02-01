@@ -1,0 +1,55 @@
+{% extends 'blog/base.html' %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block title %}{{post.title}}{% endblock %}
+{% block content %}
+
+
+<div class="container" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    <div class="row">
+        <div class="col-md-8 card mb-4  mt-3 left  top">
+            <div class="profile-img">
+                {% if post.image %}
+                <img src="{{post.image.url}}" alt="" width="100%" height="270px">
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h1>{{ post.title }}</h1>
+                <p class="card-text text-muted"><span style="text-transform: capitalize;"> By {{ post.author }}</span>
+                    &nbsp;|&nbsp;{{post.created_on}}&nbsp;|&nbsp;{{post.get_read_time}} </p>
+                <p class="card-text ">{{ post.content | safe }}</p>
+                <div class="container mt-2">
+                    <p class="pb-2 mb-2 border-bottom text-muted">Comments
+                        {% if post.comments_count > 1 %}
+                        <small class="text-muted"> ({{post.comments_count|intcomma}} comments</small> &nbsp;
+                        <small><a hx-get="{% url 'blog:likes-details' post.slug %}" hx-target="body" class="text-muted">
+                            <i class="fa fa-heart" aria-hidden="true"></i></a> &nbsp;{{ post.likes|intcomma}}) </small>
+
+                        {% else %}
+                        <small class="text-muted"> ({{post.comments_count|intcomma}} comment</small>
+                        <small><a hx-get="{% url 'blog:likes-details' post.slug %}" hx-target="body" class="text-muted">
+                            <i class="fa fa-heart" aria-hidden="true"></i></a> &nbsp;{{ post.likes|intcomma}}) </small>
+
+                        {% endif %}
+                    </p>
+                    {% for comment in comments %}
+                    <p class=" text-muted">{{ comment.username }} | {{ comment.added_on|naturaltime }}</p>
+                    <p>{{comment.content }}</p>
+                    {% endfor %}
+                </div>
+                <form hx-encoding='multipart/form-data' hx-post="." hx-target="body">
+                    {% csrf_token %}
+                    <div class="container mt-3">
+                        <h5 class="pb-2 mb-2 border-bottom ">Leave a comment</h5>
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,101 @@
+{% extends 'blog/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="container profile mt-2">
+    <h3 class="pb-2 mb-2 border-bottom ">Profile</h3>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-img border">
+                {% if user.profile.image %}
+                <img src="{{user.profile.image.url}}" alt="" width="310px" height="270px">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="profile-tab">
+                <div class="tab-pane">
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Username:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p>{{user}}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Full Name:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p>{{user.get_full_name}}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Email:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p>{{user.email}}</p>
+                        </div>
+                    </div>
+
+                    {% if user.profile.bio %}
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Bio:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p>{{user.profile.bio}}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if user.profile.twitter %}
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Twitter link:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p><a target="_blank" href="{{user.profile.twitter}}">{{user.profile.twitter}}</a></p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if user.profile.instagram %}
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Instagram link:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p><a target="_blank" href="{{user.profile.instagram}}">{{user.profile.instagram}}</a></p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if user.profile.facebook %}
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Facebook link:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <p><a target="_blank" href="{{user.profile.facebook}}">{{user.profile.facebook}}</a></p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </div>
+                <hr>
+                <!--<a href="{% url 'blog:profile' %}" class="btn btn-secondary">Edit Profile</a>-->
+
+                <button class="btn btn-secondary" hx-get="{% url 'blog:edit-profile' %}" hx-target="body">Edit profile
+                </button>
+                 <hr>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
