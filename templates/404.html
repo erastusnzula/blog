@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+<title>{% block head_title %}400 Error{% endblock head_title %}</title>
+
+{% block content%}
+
+<div class="container mt-2">
+    <div class="card mb-3">
+        <h4 class="card-header">
+            <p>400 Error</p>
+        </h4>
+        <div class="card-body">
+            <p>The item you requested is not available. (404)</p>
+        </div>
+    </div>
+</div>
+{% endblock content%}
