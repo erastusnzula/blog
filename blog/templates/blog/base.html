@@ -38,6 +38,21 @@
                 <li class="nav-item text-black">
                     <a class="nav-link text-black font-weight-bold" href="{% url 'blog:contact' %}">Contact us</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-black font-weight-bold dropdown-toggle" id="category" data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                        <a href="{% url 'blog:posts' %}" class="dropdown-item">All</a>
+                        <div class="dropdown-divider"></div>
+                        {% for category in categories%}
+                        <a class="dropdown-item" href="{% url 'blog:category' category.name %}">{{category.name}}</a>
+                        <div class="dropdown-divider"></div>
+                        {% endfor %}
+                    </div>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -94,6 +109,7 @@
       document.body.addEventListener('htmx:configRequest', (event) => {
         event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
       })
+
 
 
 

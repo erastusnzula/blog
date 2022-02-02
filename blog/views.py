@@ -5,13 +5,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView
 
 from blog.forms import ProfileForm, UserForm, CommentForm, ContactForm
-from blog.models import Post, Profile, Comment, Contact, Setting
+from blog.models import Post, Profile, Comment, Contact, Setting, Category
 
 
 class Posts(View):
@@ -61,6 +61,7 @@ class PostDetails(View):
 
 
 def register(request):
+    logout(request)
     if request.method == "POST":
         username = request.POST['username']
         email = request.POST['email']
@@ -97,14 +98,20 @@ def register(request):
 
 
 def login_user(request):
+    logout(request)
     if request.method == "POST":
+        return_url = request.POST.get("return_url")
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
-            login(request, user)
-            messages.success(request, "Successfully logged in")
-            return redirect("/")
+            if user.is_active:
+                login(request, user)
+                messages.success(request, "Successfully logged in")
+                if return_url:
+                    return HttpResponseRedirect(return_url)
+                else:
+                    return redirect("/")
         else:
             messages.warning(request, "Invalid username or password")
         return redirect('blog:login')
@@ -129,7 +136,7 @@ class ProfileUpdate(LoginRequiredMixin, View):
             return redirect('blog:profile')
 
 
-@login_required
+@login_required(login_url='blog:login')
 def edit_profile(request):
     try:
         profile = request.user.profile
@@ -140,7 +147,7 @@ def edit_profile(request):
     return render(request, "blog/edit_profile.html", {'form': form, 'u_form': u_form})
 
 
-@login_required
+@login_required(login_url='blog:login')
 def user_logout(request):
     logout(request)
     messages.success(request, "Successfully logged out")
@@ -182,16 +189,92 @@ class Settings(View):
         return render(self.request, 'blog/settings.html', context)
 
 
+remote_addresses_likes = []
+remote_addresses_dislikes = []
+
+
 def like_post(request, slug):
     post = Post.objects.get(slug=slug)
-    post.likes += 1
-    post.save()
-    print(request.user)
-    return redirect('blog:posts')
+    ip = request.META.get('REMOTE_ADDR')
+    if ip not in remote_addresses_likes:
+        post.likes += 1
+        #post.like_button_color='color:red'
+        ip = request.META.get('REMOTE_ADDR')
+        remote_addresses_likes.append(ip)
+        post.save()
+        return redirect('blog:posts')
+    else:
+        post.likes -= 1
+        #post.like_button_color = ''
+        post.save()
+        remote_addresses_likes.remove(ip)
+        return redirect('blog:posts')
+
+
+def dislike_post(request, slug):
+    post = Post.objects.get(slug=slug)
+    ip = request.META.get('REMOTE_ADDR')
+    if ip not in remote_addresses_dislikes:
+        post.dislikes += 1
+        #post.dislike_button_color='color:red'
+        ip = request.META.get('REMOTE_ADDR')
+        remote_addresses_dislikes.append(ip)
+        post.save()
+        return redirect('blog:posts')
+    else:
+        post.dislikes -= 1
+        #post.dislike_button_color=''
+        post.save()
+        remote_addresses_dislikes.remove(ip)
+        return redirect('blog:posts')
 
 
 def like_post_details(request, slug):
     post = Post.objects.get(slug=slug)
-    post.likes += 1
-    post.save()
-    return redirect('blog:details', slug=slug)
+    ip = request.META.get('REMOTE_ADDR')
+    if ip not in remote_addresses_likes:
+        post.likes += 1
+        #post.like_button_color='color:red'
+        ip = request.META.get('REMOTE_ADDR')
+        remote_addresses_likes.append(ip)
+        post.save()
+        return redirect('blog:details', slug=slug)
+    else:
+        post.likes -= 1
+        #post.like_button_color=''
+        post.save()
+        remote_addresses_likes.remove(ip)
+        return redirect('blog:details', slug=slug)
+
+
+def dislike_post_details(request, slug):
+    post = Post.objects.get(slug=slug)
+    ip = request.META.get('REMOTE_ADDR')
+    if ip not in remote_addresses_dislikes:
+        post.dislikes += 1
+        #post.dislike_button_color='color:red'
+        ip = request.META.get('REMOTE_ADDR')
+        remote_addresses_dislikes.append(ip)
+        post.save()
+        return redirect('blog:details', slug=slug)
+    else:
+        post.dislikes -= 1
+        #post.dislike_button_color=''
+        post.save()
+        remote_addresses_dislikes.remove(ip)
+        return redirect('blog:details', slug=slug)
+
+
+class PostCategory(View):
+    def get(self, request, category, *args, **kwargs):
+        posts = Post.objects.filter(category__name__contains=category)
+        context = {
+            'post_list': posts,
+            'category': category,
+        }
+        return render(self.request, 'blog/category.html', context)
+
+
+def all_categories(request):
+    categories = Category.objects.all()
+    return {'categories': categories}

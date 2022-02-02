@@ -14,5 +14,8 @@ urlpatterns = [
     path("blog/user/contact/", views.UserContact.as_view(), name="contact"),
     path("blog/settings/", views.Settings.as_view(), name="settings"),
     path("blog/likes/<slug:slug>/", views.like_post, name="likes"),
+    path("blog/dislikes/<slug:slug>/", views.dislike_post, name="dislikes"),
     path("blog/post/<slug:slug>/", views.like_post_details, name="likes-details"),
+    path("blog/post/dislike/<slug:slug>/", views.dislike_post_details, name="dislikes-details"),
+    path("blog/category/<category>/", views.PostCategory.as_view(), name="category"),
 ]

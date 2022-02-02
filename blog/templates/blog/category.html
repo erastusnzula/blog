@@ -29,7 +29,7 @@
                     <h3><a class="card-title" href="{% url 'blog:details' post.slug  %}">{{ post.title }}</a></h3>
                     <p class="card-text text-muted h6"><span
                             style="text-transform: capitalize;"> By {{ post.author }}</span>&nbsp;|&nbsp;
-                        {{post.created_on}}&nbsp;|&nbsp;{{post.get_read_time}}&nbsp;|&nbsp;Category:&nbsp;
+                        {{post.created_on|naturaltime}}&nbsp;|&nbsp;{{post.get_read_time}}&nbsp;|&nbsp;Category:&nbsp;
                 {% for category in post.category.all %}
                 <a href="{% url 'blog:category' category.name %}">
                     {{ category.name }}</a>&nbsp;
@@ -38,22 +38,17 @@
                         &nbsp;|&nbsp;Updated&nbsp;{{post.updated_on|naturaltime}}
                         {% endif %}
                     </p>
-                    <p class="card-text" id="post">{{post.content|slice:":200"|safe }}</p>
+                    <p class="card-text">{{post.content|slice:":200"|safe }}</p>
                     <a href="{% url 'blog:details' post.slug  %}" class="btn btn-primary">Read more &rarr;</a>
                     <br>
                     {% if post.comments_count > 1 %}
                     <small class="text-muted"> {{post.comments_count|intcomma}} comments</small> &nbsp;
                     <small><a hx-get="{% url 'blog:likes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-heart" aria-hidden="true" style="{{post.like_button_color}};"></i></a> &nbsp;{{ post.likes|intcomma}} </small>&nbsp;
-                    <small><a hx-get="{% url 'blog:dislikes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-thumbs-down" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a> &nbsp;{{ post.dislikes|intcomma}} </small>
+                        <i class="fa fa-heart" aria-hidden="true"></i></a> &nbsp;{{ post.likes|intcomma}} </small>
                     {% else %}
                     <small class="text-muted"> {{post.comments_count|intcomma}} comment</small> &nbsp;
                     <small> <a hx-get="{% url 'blog:likes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-heart" id="like-button" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
-                        &nbsp;{{ post.likes|intcomma}} </small>&nbsp;
-                    <small> <a hx-get="{% url 'blog:dislikes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-thumbs-down" aria-hidden="true"style="{{post.dislike_button_color}};"></i></a> &nbsp;{{ post.dislikes|intcomma}} </small>
+                        <i class="fa fa-heart" aria-hidden="true"></i></a> &nbsp;{{ post.likes|intcomma}} </small>
                     {% endif %}
 
                 </div>

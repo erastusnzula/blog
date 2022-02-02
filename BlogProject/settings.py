@@ -54,8 +54,7 @@ CKEDITOR_CONFIGS = {
             ['RemoveFormat', 'Source'],
             ['CodeSnippet'],
             ['Youtube'],
-
-        ], 'extraPlugins': ','.join(['codesnippet','youtube']),
+        ], 'extraPlugins': ','.join(['codesnippet', 'youtube']),
     }
 }
 
@@ -82,6 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.views.all_categories',
             ],
         },
     },
@@ -137,6 +137,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "blog/static/")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'blog/media/')
+
+LOGIN_URL = 'blog:login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

@@ -8,6 +8,12 @@ STATUS = (
     (1, 'Publish'),
 )
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -23,6 +29,7 @@ class Profile(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=255, unique=True)
+    category = models.ManyToManyField(Category, related_name='posts', default='Django')
     slug = models.SlugField(max_length=255, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     created_on = models.DateTimeField(auto_now_add=True)
@@ -32,6 +39,10 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images', blank=True, null=True)
     comments_count = models.PositiveIntegerField(default=0)
     likes = models.PositiveIntegerField(default=0)
+    like_button_color = models.CharField(max_length=255, default='color:blue', blank=True,null=True)
+    dislike_button_color = models.CharField(max_length=255, default='color:red', blank=True,null=True)
+    dislikes = models.PositiveIntegerField(default=0)
+    updated = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_on']
