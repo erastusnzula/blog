@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-CKEDITOR_UPLOAD_PATH = os.path.join(BASE_DIR, "blog/static")
+CKEDITOR_UPLOAD_PATH = "static"
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Custom',

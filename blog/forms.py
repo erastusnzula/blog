@@ -16,7 +16,7 @@ class ProfileForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
+        fields = ['username', 'email', 'first_name', 'last_name']
 
 
 class CommentForm(forms.ModelForm):
@@ -24,10 +24,8 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['username', 'content']
         widgets = {
-            'content': forms.Textarea(attrs={'rows':3, 'cols':15}),
+            'content': forms.Textarea(attrs={'rows': 3, 'cols': 15}),
         }
-
-
 
 
 class ContactForm(forms.ModelForm):
@@ -35,6 +33,6 @@ class ContactForm(forms.ModelForm):
         model = Contact
         fields = ['email', 'message']
         widgets = {
-            'message': forms.Textarea(attrs={'rows': 4, 'cols': 15, 'placeholder':'Write your concern here.'}),
+            'message': forms.Textarea(attrs={'rows': 4, 'cols': 15, 'placeholder': 'Write your concern here.'}),
             'email': forms.TextInput(attrs={'placeholder': 'example@gmail.com'})
         }

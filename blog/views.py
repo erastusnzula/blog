@@ -196,73 +196,89 @@ remote_addresses_dislikes = []
 def like_post(request, slug):
     post = Post.objects.get(slug=slug)
     ip = request.META.get('REMOTE_ADDR')
-    if ip not in remote_addresses_likes:
-        post.likes += 1
-        #post.like_button_color='color:red'
-        ip = request.META.get('REMOTE_ADDR')
-        remote_addresses_likes.append(ip)
-        post.save()
-        return redirect('blog:posts')
+    # if ip not in remote_addresses_likes:
+    post.likes += 1
+    # post.like_button_color='color:red'
+    ip = request.META.get('REMOTE_ADDR')
+    # remote_addresses_likes.append(ip)
+    post.save()
+    return redirect('blog:posts')
+
+
+"""
     else:
         post.likes -= 1
         #post.like_button_color = ''
         post.save()
         remote_addresses_likes.remove(ip)
         return redirect('blog:posts')
+"""
 
 
 def dislike_post(request, slug):
     post = Post.objects.get(slug=slug)
     ip = request.META.get('REMOTE_ADDR')
-    if ip not in remote_addresses_dislikes:
-        post.dislikes += 1
-        #post.dislike_button_color='color:red'
-        ip = request.META.get('REMOTE_ADDR')
-        remote_addresses_dislikes.append(ip)
-        post.save()
-        return redirect('blog:posts')
+    # if ip not in remote_addresses_dislikes:
+    post.dislikes += 1
+    # post.dislike_button_color='color:red'
+    ip = request.META.get('REMOTE_ADDR')
+    # remote_addresses_dislikes.append(ip)
+    post.save()
+    return redirect('blog:posts')
+
+
+"""
     else:
         post.dislikes -= 1
         #post.dislike_button_color=''
         post.save()
         remote_addresses_dislikes.remove(ip)
         return redirect('blog:posts')
+"""
 
 
 def like_post_details(request, slug):
     post = Post.objects.get(slug=slug)
     ip = request.META.get('REMOTE_ADDR')
-    if ip not in remote_addresses_likes:
-        post.likes += 1
-        #post.like_button_color='color:red'
-        ip = request.META.get('REMOTE_ADDR')
-        remote_addresses_likes.append(ip)
-        post.save()
-        return redirect('blog:details', slug=slug)
+    # if ip not in remote_addresses_likes:
+    post.likes += 1
+    # post.like_button_color='color:red'
+    ip = request.META.get('REMOTE_ADDR')
+    # remote_addresses_likes.append(ip)
+    post.save()
+    return redirect('blog:details', slug=slug)
+
+
+"""
     else:
         post.likes -= 1
         #post.like_button_color=''
         post.save()
         remote_addresses_likes.remove(ip)
         return redirect('blog:details', slug=slug)
+"""
 
 
 def dislike_post_details(request, slug):
     post = Post.objects.get(slug=slug)
     ip = request.META.get('REMOTE_ADDR')
-    if ip not in remote_addresses_dislikes:
-        post.dislikes += 1
-        #post.dislike_button_color='color:red'
-        ip = request.META.get('REMOTE_ADDR')
-        remote_addresses_dislikes.append(ip)
-        post.save()
-        return redirect('blog:details', slug=slug)
+    # if ip not in remote_addresses_dislikes:
+    post.dislikes += 1
+    # post.dislike_button_color='color:red'
+    ip = request.META.get('REMOTE_ADDR')
+    # remote_addresses_dislikes.append(ip)
+    post.save()
+    return redirect('blog:details', slug=slug)
+
+
+"""
     else:
         post.dislikes -= 1
         #post.dislike_button_color=''
         post.save()
         remote_addresses_dislikes.remove(ip)
         return redirect('blog:details', slug=slug)
+"""
 
 
 class PostCategory(View):
