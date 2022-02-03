@@ -2,4 +2,4 @@ BLOG
 ====
 Description
 ==========
-A simple blog using django+JS+HTML+HTMX.
+A simple blog using python + django + JS + HTML + HTMX + CSS.
