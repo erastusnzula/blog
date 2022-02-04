@@ -45,7 +45,7 @@
                         {% endif %}
                     </p>
                     {% for comment in comments %}
-                    <p class=" text-muted">{{ comment.username }} | {{ comment.added_on|naturaltime }}</p>
+                    <p class=" text-muted"><span style="text-transform: capitalize;">{{ comment.username }}</span> | {{ comment.added_on|naturaltime }}</p>
                     <p>{{comment.content }}</p>
                     {% endfor %}
                 </div>
