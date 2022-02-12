@@ -7,8 +7,8 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8 mt-3 left">
             <div class="card mb-4">
-            <h5 class="card-header">About us</h5>
-            {% for setting in settings %}
+                <h5 class="card-header">About us</h5>
+                {% for setting in settings %}
 
                 <div class="card-body">
                     <h3><a class="card-title" href="#">{{ post.title }}</a></h3>
@@ -17,7 +17,11 @@
             </div>
             {% endfor %}
         </div>
-        {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
+
+
     </div>
+    <a href="/" class="w3-blue w3-bar-item w3-button"><i
+            class="fa fa-home w3-margin-right"></i>Go to Home page
+    </a>
 </div>
 {%endblock%}

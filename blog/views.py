@@ -189,10 +189,6 @@ class Settings(View):
         return render(self.request, 'blog/settings.html', context)
 
 
-remote_addresses_likes = []
-remote_addresses_dislikes = []
-
-
 def like_post(request, slug):
     post = Post.objects.get(slug=slug)
     ip = request.META.get('REMOTE_ADDR')
@@ -203,16 +199,6 @@ def like_post(request, slug):
     # remote_addresses_likes.append(ip)
     post.save()
     return redirect('blog:posts')
-
-
-"""
-    else:
-        post.likes -= 1
-        #post.like_button_color = ''
-        post.save()
-        remote_addresses_likes.remove(ip)
-        return redirect('blog:posts')
-"""
 
 
 def dislike_post(request, slug):
@@ -227,16 +213,6 @@ def dislike_post(request, slug):
     return redirect('blog:posts')
 
 
-"""
-    else:
-        post.dislikes -= 1
-        #post.dislike_button_color=''
-        post.save()
-        remote_addresses_dislikes.remove(ip)
-        return redirect('blog:posts')
-"""
-
-
 def like_post_details(request, slug):
     post = Post.objects.get(slug=slug)
     ip = request.META.get('REMOTE_ADDR')
@@ -247,16 +223,6 @@ def like_post_details(request, slug):
     # remote_addresses_likes.append(ip)
     post.save()
     return redirect('blog:details', slug=slug)
-
-
-"""
-    else:
-        post.likes -= 1
-        #post.like_button_color=''
-        post.save()
-        remote_addresses_likes.remove(ip)
-        return redirect('blog:details', slug=slug)
-"""
 
 
 def dislike_post_details(request, slug):
@@ -271,22 +237,14 @@ def dislike_post_details(request, slug):
     return redirect('blog:details', slug=slug)
 
 
-"""
-    else:
-        post.dislikes -= 1
-        #post.dislike_button_color=''
-        post.save()
-        remote_addresses_dislikes.remove(ip)
-        return redirect('blog:details', slug=slug)
-"""
-
-
 class PostCategory(View):
     def get(self, request, category, *args, **kwargs):
-        posts = Post.objects.filter(category__name__contains=category)
+        posts = Post.objects.filter(category__name__contains=category,status=1)
+        settings = Setting.objects.all()
         context = {
             'post_list': posts,
             'category': category,
+            'settings':settings,
         }
         return render(self.request, 'blog/category.html', context)
 

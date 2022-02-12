@@ -4,10 +4,11 @@
 <form hx-encoding='multipart/form-data' hx-post="." hx-target="body">
     {% csrf_token %}
     <div class="container mt-5">
-         <h3 class="pb-2 mb-2 border-bottom ">Register an account</h3>
+        <h3 class="pb-2 mb-2 border-bottom ">Register an account</h3>
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" value="{{username}}" required autofocus>
+            <input type="text" class="form-control" id="username" name="username" value="{{username}}" required
+                   autofocus>
         </div>
         <div class="mb-3">
             <label for="first_name" class="form-label">First Name</label>
@@ -30,6 +31,9 @@
             <input type="password" class="form-control" id="password2" name="password2" value="{{password2}}" required>
         </div>
         <button type="submit" class="btn btn-primary">Register</button>
+        <a href="/" class="btn btn-primary"><i
+                class="fa fa-home w3-margin-right"></i>Go to Home page
+        </a>
     </div>
 </form>
 

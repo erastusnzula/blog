@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="google" content="notranslate"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -21,25 +23,25 @@
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow" id="mainNav">
+<nav class="navbar navbar-expand-sm navbar-dark w3-padding-24" id="mainNav" style="background:black">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'blog:posts' %}">
+        <a class="navbar-brand " href="{% url 'blog:posts' %}">
             <img class="" src="{% static 'images/logo.png' %}" alt="..."
                  style="height:30px;">&nbsp;Home
         </a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive"
+                data-target="#navbarResponsive" style="background:black"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
 
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item text-black">
-                    <a class="nav-link text-black font-weight-bold" href="{% url 'blog:contact' %}">Contact us</a>
+                <li class="nav-item text-white">
+                    <a class="nav-link text-white font-weight-bold" href="{% url 'blog:contact' %}">Contact us</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link text-black font-weight-bold dropdown-toggle" id="category" data-toggle="dropdown"
+                    <a class="nav-link text-white font-weight-bold dropdown-toggle" id="category" data-toggle="dropdown"
                        aria-haspopup="true"
                        aria-expanded="false">
                         Categories
@@ -58,13 +60,13 @@
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                 <li class="nav-item text-black">
-                    <a class="nav-link text-black font-weight-bold" href="{% url 'blog:profile' %}">Profile</a>
+                    <a class="nav-link text-white font-weight-bold" href="{% url 'blog:profile' %}">Profile</a>
                 </li>
                 <li class="nav-item text-black">
-                    <a class="nav-link text-black font-weight-bold" href="{% url 'blog:logout' %}">Logout</a>
+                    <a class="nav-link text-white font-weight-bold" href="{% url 'blog:logout' %}">Logout</a>
                 </li>
                 <li class="nav-item text-black">
-                    <a class="nav-link text-black font-weight-bold" href="{% url 'blog:profile' %}">
+                    <a class="nav-link text-white font-weight-bold" href="{% url 'blog:profile' %}">
                         {% if user.profile.image %}
                         <img class="rounded-circle" src="{{user.profile.image.url}}" alt="..."
                              style="height: 30px">
@@ -74,10 +76,10 @@
 
                 {% else %}
                 <li class="nav-item text-black">
-                    <a class="nav-link text-black font-weight-bold" href="{% url 'blog:register' %}">Register</a>
+                    <a class="nav-link text-white font-weight-bold" href="{% url 'blog:register' %}">Register</a>
                 </li>
                 <li class="nav-item text-black">
-                    <a class="nav-link text-black font-weight-bold" href="{% url 'blog:login' %}">Login</a>
+                    <a class="nav-link text-white font-weight-bold" href="{% url 'blog:login' %}">Login</a>
                 </li>
                 {% endif %}
             </ul>
@@ -95,23 +97,23 @@
     </div>
     {% endfor %}
     {% endif %}
+
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 </div>
 {% block content %}
 <!-- Content Goes here -->
+
 {% endblock content %}
 <!-- Footer -->
 <footer class="py-3 bg-grey">
-    <p class="m-0 text-dark text-center" id="footer">
-    </p>
+    <div id="footer" class="w3-black w3-center w3-padding-24">Copyright &copy&nbsp;</div>
 </footer>
+
 
 <script>
       document.body.addEventListener('htmx:configRequest', (event) => {
         event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
       })
-
-
-
 
 </script>
 <script src="{% static 'scripts/main.js' %}"></script>
@@ -124,6 +126,28 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+</script>
 
 
 </body>

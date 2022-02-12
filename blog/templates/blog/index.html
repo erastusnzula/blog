@@ -1,5 +1,6 @@
 {% extends "blog/base.html" %}
 {% load humanize %}
+{% load static %}
 {% block content %}
 
 
@@ -7,9 +8,17 @@
     <div class="container">
         <div class=" col-md-10 mx-auto">
             <div class="site-heading">
-                <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to Erastus Blog </h3>
-                <p class="text-light">We cover Python, JavaScript, HTML, HTMX and CSS related topics. &nbsp
-                </p>
+                <div class="card w3-animate-left" style="background:blue;">
+                    <div class="card-body">
+                        <a hx-get="/" hx-target="body">
+                            <img src="{% static 'images/s.png' %}" alt="Image" style="width:65px;"
+                                 class="w3-circle w3-right  w3-hover-opacity"></a>
+
+                        <h3 class=" site-heading mt-3 text-white text-center"> EMU </h3>
+                        <p class="text-light text-center">Python, Django and Web Development
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -30,10 +39,10 @@
                     <p class="card-text text-muted h6"><span
                             style="text-transform: capitalize;"> By {{ post.author }}</span>&nbsp;|&nbsp;
                         {{post.created_on}}&nbsp;|&nbsp;{{post.get_read_time}}&nbsp;|&nbsp;Category:&nbsp;
-                {% for category in post.category.all %}
-                <a href="{% url 'blog:category' category.name %}">
-                    {{ category.name }}</a>&nbsp;
-                {% endfor %}
+                        {% for category in post.category.all %}
+                        <a href="{% url 'blog:category' category.name %}">
+                            {{ category.name }}</a>&nbsp;
+                        {% endfor %}
                         {% if post.updated %}
                         &nbsp;|&nbsp;Updated&nbsp;{{post.updated_on|naturaltime}}
                         {% endif %}
@@ -44,16 +53,20 @@
                     {% if post.comments_count > 1 %}
                     <small class="text-muted"> {{post.comments_count|intcomma}} comments</small> &nbsp;
                     <small><a hx-get="{% url 'blog:likes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-heart" aria-hidden="true" style="{{post.like_button_color}};"></i></a> &nbsp;{{ post.likes|intcomma}} </small>&nbsp;
+                        <i class="fa fa-heart" aria-hidden="true" style="{{post.like_button_color}};"></i></a> &nbsp;{{
+                        post.likes|intcomma}} </small>&nbsp;
                     <small><a hx-get="{% url 'blog:dislikes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-thumbs-down" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a> &nbsp;{{ post.dislikes|intcomma}} </small>
+                        <i class="fa fa-thumbs-down" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
+                        &nbsp;{{ post.dislikes|intcomma}} </small>
                     {% else %}
                     <small class="text-muted"> {{post.comments_count|intcomma}} comment</small> &nbsp;
                     <small> <a hx-get="{% url 'blog:likes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-heart" id="like-button" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
+                        <i class="fa fa-heart" id="like-button" aria-hidden="true"
+                           style="{{post.like_button_color}};"></i></a>
                         &nbsp;{{ post.likes|intcomma}} </small>&nbsp;
                     <small> <a hx-get="{% url 'blog:dislikes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-thumbs-down" aria-hidden="true"style="{{post.dislike_button_color}};"></i></a> &nbsp;{{ post.dislikes|intcomma}} </small>
+                        <i class="fa fa-thumbs-down" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
+                        &nbsp;{{ post.dislikes|intcomma}} </small>
                     {% endif %}
 
                 </div>
