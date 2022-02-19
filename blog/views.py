@@ -1,3 +1,7 @@
+import os
+import smtplib
+from email.message import EmailMessage
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -171,10 +175,9 @@ class UserContact(View):
             contact.email = email
             contact.message = message
             contact.save()
-            # return HttpResponse('sent')
+            send_mail(os.environ.get('EMAIL_HOST_USER'), os.environ.get('EMAIL_HOST_PASSWORD'))
             messages.success(self.request, 'Message sent successfully.')
             return redirect('blog:contact')
-            # return render(self.request, 'blog/contact_form.html')
         else:
             messages.warning(self.request, 'Message not sent, enter a valid email.')
             return redirect('blog:contact')
@@ -239,12 +242,12 @@ def dislike_post_details(request, slug):
 
 class PostCategory(View):
     def get(self, request, category, *args, **kwargs):
-        posts = Post.objects.filter(category__name__contains=category,status=1)
+        posts = Post.objects.filter(category__name__contains=category, status=1)
         settings = Setting.objects.all()
         context = {
             'post_list': posts,
             'category': category,
-            'settings':settings,
+            'settings': settings,
         }
         return render(self.request, 'blog/category.html', context)
 
@@ -252,3 +255,23 @@ class PostCategory(View):
 def all_categories(request):
     categories = Category.objects.all()
     return {'categories': categories}
+
+
+def send_mail(email_address, email_password):
+    """Sending emails with Html format."""
+    msg = EmailMessage()
+    msg['Subject'] = 'New Message Blog'
+    msg['From'] = email_address
+    msg['To'] = ['erastusnzula@gmail.com']
+    msg.set_content('''
+    <!DOCTYPE html>
+    <html>
+        <body>
+        <p>Hey, check admin portal a new person contacted you.</p>
+        </body>
+    </html>
+    ''', subtype='html')
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(email_address, email_password)
+        smtp.send_message(msg)

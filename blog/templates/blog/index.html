@@ -38,7 +38,7 @@
                     <h3><a class="card-title" href="{% url 'blog:details' post.slug  %}">{{ post.title }}</a></h3>
                     <p class="card-text text-muted h6"><span
                             style="text-transform: capitalize;"> By {{ post.author }}</span>&nbsp;|&nbsp;
-                        {{post.created_on}}&nbsp;|&nbsp;{{post.get_read_time}}&nbsp;|&nbsp;Category:&nbsp;
+                        {{post.created_on|date:"d-M-Y"}}&nbsp;|&nbsp;{{post.get_read_time}}&nbsp;|&nbsp;Category:&nbsp;
                         {% for category in post.category.all %}
                         <a href="{% url 'blog:category' category.name %}">
                             {{ category.name }}</a>&nbsp;
@@ -53,8 +53,8 @@
                     {% if post.comments_count > 1 %}
                     <small class="text-muted"> {{post.comments_count|intcomma}} comments</small> &nbsp;
                     <small><a hx-get="{% url 'blog:likes' post.slug %}" hx-target="body" class="text-muted">
-                        <i class="fa fa-heart" aria-hidden="true" style="{{post.like_button_color}};"></i></a> &nbsp;{{
-                        post.likes|intcomma}} </small>&nbsp;
+                        <i class="fa fa-heart" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
+                        &nbsp;{{post.likes|intcomma}} </small>&nbsp;
                     <small><a hx-get="{% url 'blog:dislikes' post.slug %}" hx-target="body" class="text-muted">
                         <i class="fa fa-thumbs-down" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
                         &nbsp;{{ post.dislikes|intcomma}} </small>
