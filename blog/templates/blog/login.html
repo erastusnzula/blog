@@ -2,7 +2,7 @@
 {% block title %}Login{% endblock %}
 {% block content %}
 
-<form class="login-form" hx-encoding='multipart/form-data' hx-post="." hx-target="body">
+<form class="login-form"  enctype="multipart/form-data" action="." method="post" novalidate>
     {% csrf_token %}
     <input type="hidden" name="return_url" value="{{ request.GET.next }}"/>
     <div class="container mt-5" id="login">
@@ -10,10 +10,22 @@
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" id="username" name="username" required autofocus>
+            <div class="invalid-feedback">
+                Please enter your username
+            </div>
+            <div class="valid-feedback">
+                looks good
+            </div>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password" required>
+            <div class="invalid-feedback">
+                please enter your password.
+            </div>
+            <div class="valid-feedback">
+                looks good.
+            </div>
         </div>
         <br>
         <button type="submit" class="btn btn-primary col" id="login-button">Login</button>
@@ -23,4 +35,27 @@
     </div>
 </form>
 
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.login-form')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+</script>
 {% endblock content %}

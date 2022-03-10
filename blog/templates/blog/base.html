@@ -97,16 +97,15 @@
     </div>
     {% endfor %}
     {% endif %}
-
-    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 </div>
+<button onclick="goToTop()" id="myBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
 {% block content %}
 <!-- Content Goes here -->
 
 {% endblock content %}
 <!-- Footer -->
 <footer class="py-3 bg-grey">
-    <div id="footer" class="w3-black w3-center w3-padding-24">Copyright &copy&nbsp;</div>
+    <div id="footer" class="w3-black w3-center w3-padding-24">Copyright &copy&nbsp;2022</div>
 </footer>
 
 
@@ -142,7 +141,7 @@ function scrollFunction() {
 }
 
 // When the user clicks on the button, scroll to the top of the document
-function topFunction() {
+function goToTop() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }

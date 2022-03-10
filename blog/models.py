@@ -8,8 +8,12 @@ STATUS = (
     (1, 'Publish'),
 )
 
+
 class Category(models.Model):
     name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.name
@@ -39,8 +43,8 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images', blank=True, null=True)
     comments_count = models.PositiveIntegerField(default=0)
     likes = models.PositiveIntegerField(default=0)
-    like_button_color = models.CharField(max_length=255, default='color:blue', blank=True,null=True)
-    dislike_button_color = models.CharField(max_length=255, default='color:red', blank=True,null=True)
+    like_button_color = models.CharField(max_length=255, default='color:blue', blank=True, null=True)
+    dislike_button_color = models.CharField(max_length=255, default='color:red', blank=True, null=True)
     dislikes = models.PositiveIntegerField(default=0)
     updated = models.BooleanField(default=False)
 

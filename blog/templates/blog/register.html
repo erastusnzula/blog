@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block title %}Register{% endblock %}
 {% block content %}
-<form hx-encoding='multipart/form-data' hx-post="." hx-target="body">
+<form class="registration-form" enctype='multipart/form-data' action="." method="post" novalidate>
     {% csrf_token %}
     <div class="container mt-5">
         <h3 class="pb-2 mb-2 border-bottom ">Register an account</h3>
@@ -9,26 +9,63 @@
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" id="username" name="username" value="{{username}}" required
                    autofocus>
+            <div class="invalid-feedback">
+                Please enter a username
+            </div>
+            <div class="valid-feedback">
+                looks good
+            </div>
         </div>
+
         <div class="mb-3">
             <label for="first_name" class="form-label">First Name</label>
             <input type="text" class="form-control" id="first_name" name="first_name" value="{{first_name}}" required>
+            <div class="invalid-feedback">
+                Please enter first name
+            </div>
+            <div class="valid-feedback">
+                looks good
+            </div>
         </div>
         <div class="mb-3">
             <label for="last_name" class="form-label">Last Name</label>
             <input type="text" class="form-control" id="last_name" name="last_name" value="{{last_name}}" required>
+            <div class="invalid-feedback">
+                Please enter last name
+            </div>
+            <div class="valid-feedback">
+                looks good
+            </div>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" name="email" value="{{email}}" required>
+            <div class="invalid-feedback">
+                Please enter email address
+            </div>
+            <div class="valid-feedback">
+                looks good
+            </div>
         </div>
         <div class="mb-3">
             <label for="password1" class="form-label">Password</label>
             <input type="password" class="form-control" id="password1" name="password1" value="{{password1}}" required>
+            <div class="invalid-feedback">
+                Please enter password
+            </div>
+            <div class="valid-feedback">
+                looks good
+            </div>
         </div>
         <div class="mb-3">
             <label for="password2" class="form-label">Confirm Password</label>
             <input type="password" class="form-control" id="password2" name="password2" value="{{password2}}" required>
+            <div class="invalid-feedback">
+                Please renter your password.
+            </div>
+            <div class="valid-feedback">
+                looks good
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Register</button>
         <a href="/" class="btn btn-primary"><i
@@ -36,5 +73,28 @@
         </a>
     </div>
 </form>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
 
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.registration-form')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+
+</script>
 {% endblock content %}
