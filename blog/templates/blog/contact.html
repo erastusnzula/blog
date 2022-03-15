@@ -4,7 +4,7 @@
 {% block content %}
 
 
-<form name="contact-form" hx-post="." hx-target="body">
+<form name="contact-form" hx-post="." hx-target="body" id="c-form">
     {% csrf_token %}
     <div class="container mt-3">
         <h3 class="pb-2 mb-2 border-bottom ">Contact us</h3>
@@ -24,11 +24,15 @@ document.getElementById('loader').style.display = 'none';
 document.getElementById('button-loader').style.display = 'none';
 
 function submitClicked(){
+    let f=document.getElementById('c-form');
+    if (f.email.value.length > 0 && f.message.value.length > 0){
     document.getElementById('loader').style.display = 'inline-block';
     document.getElementById('button-loader').style.display = 'block';
     document.getElementById('button-submit').style.display = 'none';
     document.getElementById('go-home').style.display = 'none';
     }
+    }
+
 </script>
 
 {% endblock %}
