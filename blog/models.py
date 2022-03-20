@@ -47,6 +47,7 @@ class Post(models.Model):
     dislike_button_color = models.CharField(max_length=255, default='color:red', blank=True, null=True)
     dislikes = models.PositiveIntegerField(default=0)
     updated = models.BooleanField(default=False)
+    filename = models.CharField(max_length=255, default='', blank=True, null=True)
 
     class Meta:
         ordering = ['-created_on']

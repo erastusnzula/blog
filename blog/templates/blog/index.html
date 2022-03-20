@@ -49,6 +49,14 @@
                     </p>
                     <p class="card-text" id="post">{{post.content|slice:":200"|safe }}</p>
                     <a href="{% url 'blog:details' post.slug  %}" class="btn btn-primary">Read more &rarr;</a>
+                    {% if post.filename %}
+
+                        <a class="btn btn-primary w3-padding-small w3-margin-top w3-margin-bottom w3-round-xlarge"
+                           href="{% static 'documents/encrypt_pdf.JPG' %}" download>
+                            <i class="fa fa-download w3-margin-right"></i>Download {{post.filename}}
+                        </a>
+
+                    {% endif %}
                     <br>
                     {% if post.comments_count > 1 %}
                     <small class="text-muted"> {{post.comments_count|intcomma}} comments</small> &nbsp;

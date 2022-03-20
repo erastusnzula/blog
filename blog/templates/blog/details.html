@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 {% load humanize %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block title %}{{post.title}}{% endblock %}
 {% block content %}
 
@@ -43,6 +44,14 @@
                         <i class="fa fa-thumbs-down" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a> &nbsp;{{ post.dislikes|intcomma}} )</small>
 
                         {% endif %}
+                        {% if post.filename %}
+
+                        <a class="btn btn-primary w3-padding-small w3-margin-top w3-margin-bottom w3-round-xlarge"
+                           href="{% static 'documents/encrypt_pdf.JPG' %}" download>
+                            <i class="fa fa-download w3-margin-right"></i>Download {{post.filename}}
+                        </a>
+
+                    {% endif %}
                     </p>
                     {% for comment in comments %}
                     <p class=" text-muted"><span style="text-transform: capitalize;">{{ comment.username }}</span> | {{ comment.added_on|naturaltime }}</p>
