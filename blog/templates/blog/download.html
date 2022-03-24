@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Downloads{% endblock %}
+{% block content %}
+<p>Galaxy Game:
+<a class="btn btn-primary w3-padding-small w3-margin-top w3-margin-bottom w3-round-xlarge"
+   href="{% static 'documents/galaxy.apk' %}" download>
+    <i class="fa fa-download w3-margin-right"></i>Download
+</a>
+</p>
+{% endblock %}

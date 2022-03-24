@@ -18,4 +18,5 @@ urlpatterns = [
     path("blog/post/<slug:slug>/", views.like_post_details, name="likes-details"),
     path("blog/post/dislike/<slug:slug>/", views.dislike_post_details, name="dislikes-details"),
     path("blog/category/<category>/", views.PostCategory.as_view(), name="category"),
+    path("blog/download/", views.Download.as_view(), name="download"),
 ]

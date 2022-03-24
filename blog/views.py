@@ -273,3 +273,8 @@ def send_mail(email_address, email_password):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(email_address, email_password)
         smtp.send_message(msg)
+
+
+class Download(View):
+    def get(self, *args, **kwargs):
+        return render(self.request, 'blog/download.html')
