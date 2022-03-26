@@ -83,3 +83,19 @@ class Setting(models.Model):
 
     def __str__(self):
         return self.about[:20] + '...'
+
+
+class DownloadFiles(models.Model):
+    filename = models.CharField(max_length=255)
+    file = models.FileField(upload_to='downloads/mobile/%Y/%m/%d/', null=True, blank=True)
+    windows = models.FileField(upload_to='downloads/windows/%Y/%m/%d/', default='', null=True, blank=True)
+    linux = models.FileField(upload_to='downloads/linux/%Y/%m/%d/', default='', null=True, blank=True)
+    description = models.TextField(default='',blank=True, null=True)
+    upload_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.filename
+
+    class Meta:
+        ordering = ['-upload_date']
+        verbose_name_plural = 'Download Files'

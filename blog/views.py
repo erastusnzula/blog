@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from blog.forms import ProfileForm, UserForm, CommentForm, ContactForm
-from blog.models import Post, Profile, Comment, Contact, Setting, Category
+from blog.models import Post, Profile, Comment, Contact, Setting, Category, DownloadFiles
 
 
 class Posts(View):
@@ -277,4 +277,8 @@ def send_mail(email_address, email_password):
 
 class Download(View):
     def get(self, *args, **kwargs):
-        return render(self.request, 'blog/download.html')
+        files = DownloadFiles.objects.all()
+        context = {
+            'files': files
+        }
+        return render(self.request, 'blog/download.html', context)

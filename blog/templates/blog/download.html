@@ -3,10 +3,41 @@
 {% load static %}
 {% block title %}Downloads{% endblock %}
 {% block content %}
-<p>Galaxy Game:
-<a class="btn btn-primary w3-padding-small w3-margin-top w3-margin-bottom w3-round-xlarge"
-   href="{% static 'documents/galaxy.apk' %}" download>
-    <i class="fa fa-download w3-margin-right"></i>Download
-</a>
-</p>
+
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-md-8 mt-3 left">
+            <div class="card mb-2">
+                <p class="card-header" style="text-transform:capitalize">Download Files
+                </p>
+                <div class="card-body">
+                    {% for file in files %}
+                    <p class="text-secondary" style="text-transform:capitalize">{{file.filename}} - <span><small>uploaded on : {{file.upload_date}} </small></span>
+                    </p>
+                    <p> {{file.description}}</p>
+
+                    <p>
+                        <small>
+                            Mobile : <a class="btn btn-sm btn-primary" href="{{file.file.url}} " download>
+                            <i class="fa fa-download w3-margin-right"></i>Download</a>&nbsp;
+                            {% if file.windows %}
+                            Windows : <a class="btn btn-sm btn-primary" href="{{file.file.url}} " download>Download</a>
+                            {% endif %}
+                        </small>
+                    </p>
+                    {% if file.linux %}
+                    <p>
+                        <small>
+                            Linux : <a class="btn btn-sm btn-primary" href="{{file.file.url}} " download><i
+                                class="fa fa-download w3-margin-right"></i>Download</a></small>
+                    </p>
+                    {% endif %}
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
+    </div>
+</div>
 {% endblock %}
