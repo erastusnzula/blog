@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block title %}Register{% endblock %}
 {% block content %}
-<form class="registration-form" enctype='multipart/form-data' action="." method="post" novalidate>
+<form class="registration-form mb-5" enctype='multipart/form-data' action="." method="post" novalidate>
     {% csrf_token %}
     <div class="container mt-5">
         <h3 class="pb-2 mb-2 border-bottom ">Register an account</h3>
