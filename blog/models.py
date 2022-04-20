@@ -48,6 +48,8 @@ class Post(models.Model):
     dislikes = models.PositiveIntegerField(default=0)
     updated = models.BooleanField(default=False)
     filename = models.CharField(max_length=255, default='', blank=True, null=True)
+    file = models.FileField(upload_to='downloads/%Y/%m/%d/', null=True, blank=True)
+
 
     class Meta:
         ordering = ['-created_on']
@@ -90,7 +92,7 @@ class DownloadFiles(models.Model):
     file = models.FileField(upload_to='downloads/mobile/%Y/%m/%d/', null=True, blank=True)
     windows = models.FileField(upload_to='downloads/windows/%Y/%m/%d/', default='', null=True, blank=True)
     linux = models.FileField(upload_to='downloads/linux/%Y/%m/%d/', default='', null=True, blank=True)
-    description = models.TextField(default='',blank=True, null=True)
+    description = models.TextField(default='', blank=True, null=True)
     upload_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):

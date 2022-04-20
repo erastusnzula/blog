@@ -47,7 +47,7 @@
                         {% if post.filename %}
 
                         <a class="btn btn-primary w3-padding-small w3-margin-top w3-margin-bottom w3-round-xlarge"
-                           href="{% static 'documents/encrypt_pdf.JPG' %}" download>
+                           href="{{post.file.url}}" download>
                             <i class="fa fa-download w3-margin-right"></i>Download {{post.filename}}
                         </a>
 
