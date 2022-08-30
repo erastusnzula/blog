@@ -4,7 +4,36 @@
 {% block title %}Downloads{% endblock %}
 {% block content %}
 
-<div class="container mt-2">
+<div class="download-page">
+    <div class="download-details">
+        <div class="download-card">
+            <div class="download-card-header">
+                <h3 class="download-card-title">Apps download</h3>
+            </div>
+            <div class="download-card-body">
+                <table>
+                    <tr>
+                      <th>App name</th>
+                      <th>Android mobile (apk)</th>
+                      <th class="table-description">Description</th>
+                    </tr>
+                    {% for file in files %}
+                    <tr>
+                      <td>{{file.filename}}</td>
+                      <td><a class="download-app" href="{{file.file.url}} " download>
+                        Download
+                        <i class="fa fa-download download-app-icon"></i></a </td>
+                      <td>{{file.description}}</td>
+                    </tr>
+                    {% endfor %}
+            
+                  </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comment %} <div class="container mt-2">
     <div class="row">
         <div class="col-md-8 mt-3 left">
             <div class="card mb-2">
@@ -18,7 +47,7 @@
 
                     <p>
                         <small>
-                            Mobile : <a class="btn btn-sm btn-primary" href="{{file.file.url}} " download>
+                            Mobile : <a class="btn btn-sm btn-primary" onclick="totalDownloads()" href="{{file.file.url}} " download>
                             <i class="fa fa-download w3-margin-right"></i>Download</a>&nbsp;
                             {% if file.windows %}
                             Windows : <a class="btn btn-sm btn-primary" href="{{file.file.url}} " download>Download</a>
@@ -35,9 +64,17 @@
                     <hr>
                     {% endfor %}
                 </div>
+                <div class="card-footer">
+                    <p id="totalD">Total downloads: </p>
+                </div>
             </div>
         </div>
         {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
     </div>
 </div>
+<script>
+    function totalDownloads(){
+    var total = document.getElementById("totalD").innerHTML = "Total downloads : {{file.total_downloads}}"
+    }
+</script> {% endcomment %}
 {% endblock %}

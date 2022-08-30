@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'crispy_forms',
     'django.contrib.humanize',
+    'django_daraja',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -144,3 +145,29 @@ LOGIN_URL = 'blog:login'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+consumer_key = "hhK0sEJR1leBnBiH8xlAAjFV3Upy4hZz"
+consumer_secret = "JpATTlPLiOJR5R43"
+c2b_callback = ""
+shortcode = 174379
+pass_key = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+access_token_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+checkout_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+
+MPESA_ENVIRONMENT = 'sandbox'
+MPESA_CONSUMER_KEY = "hhK0sEJR1leBnBiH8xlAAjFV3Upy4hZz"
+MPESA_CONSUMER_SECRET = "JpATTlPLiOJR5R43"
+MPESA_SHORTCODE = "174379"
+MPESA_EXPRESS_SHORTCODE = "174379"
+
+MPESA_SHORTCODE_TYPE = 'paybill'
+
+MPESA_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+
+# Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
+
+MPESA_INITIATOR_USERNAME = 'testapi'
+
+# Plaintext password for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
+
+MPESA_INITIATOR_SECURITY_CREDENTIAL = 'Safaricom999!*!'

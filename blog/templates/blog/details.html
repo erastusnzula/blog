@@ -5,8 +5,146 @@
 {% block title %}{{post.title}}{% endblock %}
 {% block content %}
 
+<div class="index">
+    <div class="post-container">
+        <div class="details-card">
+            <div class="card-header">
+                <h3><p class="card-title" href="{% url 'blog:details' post.slug  %}">{{ post.title }}</p></h3>
+                <p class="card-subtitle"style="text-transform: capitalize;"> By {{ post.author }}&nbsp;|&nbsp;
+                {{post.created_on|date:"d-M-Y"}}&nbsp;|&nbsp;{{post.get_read_time}}&nbsp;|&nbsp;Category:&nbsp;
 
-<div class="container" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+                {% for category in post.category.all %}
+                <a href="{% url 'blog:category' category.name %}">
+                    {{ category.name }}</a>&nbsp;
+                {% endfor %}
+                {% if post.updated %}
+                &nbsp;|&nbsp;Updated&nbsp;{{post.updated_on|naturaltime}}
+                {% endif %}
+            </p>
+            </div>
+            <div class="card-body">
+                <div class="card-image-holder">
+                    {% if post.image %}
+                    <img class="card-image" src="{{post.image.url}}" alt="" width="100%" height="270px">
+                    {% endif %}
+                </div>
+
+                <div class="card-body-text"
+                    <p class="card-text" id="post">{{post.content|safe }}</p>
+                    <div class="comments-likes-details">
+
+                        {% if post.comments_count > 1 %}
+
+                        <small class=""> {{post.comments_count|intcomma}}<span class="comment-title"> comments</span></small> &nbsp;
+                        <small><a hx-get="{% url 'blog:likes-details' post.slug %}" hx-target="body">
+                        <i class="fa fa-heart like-button" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
+                        &nbsp;{{post.likes|intcomma}} </small>&nbsp;
+                        <small><a hx-get="{% url 'blog:dislikes-details' post.slug %}" hx-target="body">
+                        <i class="fa fa-thumbs-down like-button" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
+                        &nbsp;{{ post.dislikes|intcomma}} </small>
+
+                        {% else %}
+
+                        <small class="text-muted"> {{post.comments_count|intcomma}} <span class="comment-title"> comment</span></small> &nbsp;
+                        <small> <a hx-get="{% url 'blog:likes-details' post.slug %}" hx-target="body">
+                        <i class="fa fa-heart like-button" id="like-button" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
+                        &nbsp;{{ post.likes|intcomma}} </small>&nbsp;
+                        <small> <a hx-get="{% url 'blog:dislikes-details' post.slug %}" hx-target="body">
+                        <i class="fa fa-thumbs-down like-button" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
+                        &nbsp;{{ post.dislikes|intcomma}} </small>
+                        
+                        {% endif %}
+
+                        {% if post.filename %}
+
+                        <small>
+                            <a class="download-button" href="{{post.file.url}}" download>
+                                Download {{post.filename}}
+                                <i class="fa fa-download download-icon"></i>
+                            </a>
+                        </small>
+                        
+                        {% endif %}
+                        <div class="all-comments">
+                            {% for comment in comments %}
+                            <div class="comments-details">
+                                <p class="comment-header">
+                                    <small><span style="text-transform: capitalize;">{{ comment.username }}</span> | {{ comment.added_on|naturaltime }}</small></p>
+                                <p class="comment-body">{{comment.content }}</p>
+                                
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="comment-form">
+                            <form hx-encoding='multipart/form-data' hx-post="." hx-target="body">
+                                {% csrf_token %}
+                                <div class="leave-comment">
+                                    <h5 class="leave-comment-title">Leave a comment</h5>
+                                    <div class="input-username-label">
+                                        <label for="username">Full name</label><br>
+                                        <input type="text" id="username" class="input-username" name="username">
+                                    </div>
+                                    <div class="input-content-label">
+                                        <label for="content">Comment </label><br>
+                                        <textarea class="input-content" name="content" id="" rows="5"></textarea>
+                                        
+                                    </div>
+                                    <button type="submit" class="submit-button">Send</button>
+                                </div>
+            
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+    <div class="side-bar">
+        <div class="about-card-header">
+            <img class="about-image" src="{% static 'images/s.png' %}" alt="">
+            <div class="about-header-content">
+                <h5 class="about-header">Erastus Nzula</h5>
+                <p class="about-header">Software developer</p>
+                <a href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw" class="twitter-follow-button"
+                data-show-screen-name="false" data-show-count="false" target="_blank">Follow @erastus_nzula</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+        </div>
+        <div class="about-body">
+            {% comment %} {% for setting in settings %}
+            <p class="card-text"> {{setting.about|slice:":100"}}&nbsp;
+            <a class="read-more-button" hx-get="{% url 'blog:settings' %}" hx-target="body">read more</a></p>    
+            {% endfor %} {% endcomment %}
+            <div class="posts-titles-container">
+                <h3 class="posts-titles-sidebar">Recent articles</h3>
+                {% for post in posts_list %}
+                <div class="posts-titles">
+                   {{forloop.counter}}. <a class="posts-titles-link" href="{% url 'blog:details' post.slug  %}">{{ post.title }}</a>
+                </div>
+                {% endfor%}
+            </div>
+
+            <div class="twitter-feed">
+                {% comment %} <a href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw" class="twitter-follow-button"
+                data-show-screen-name="false" data-show-count="false" target="_blank">Follow @erastus_nzula</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> {% endcomment %}
+        
+                <div>
+                    <a class="twitter-timeline" data-height="700" href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw">
+                        Tweets by erastus_nzula</a> 
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% comment %} <div class="container" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <div class="row">
         <div class="col-md-8 card mb-4  mt-3 left  top">
             <div class="profile-img">
@@ -71,6 +209,6 @@
         </div>
         {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
     </div>
-</div>
+</div> {% endcomment %}
 
 {% endblock content %}

@@ -1,3 +1,5 @@
+import uuid
+
 import readtime
 from django.contrib.auth.models import User
 from django.db import models
@@ -50,7 +52,6 @@ class Post(models.Model):
     filename = models.CharField(max_length=255, default='', blank=True, null=True)
     file = models.FileField(upload_to='downloads/%Y/%m/%d/', null=True, blank=True)
 
-
     class Meta:
         ordering = ['-created_on']
 
@@ -94,6 +95,7 @@ class DownloadFiles(models.Model):
     linux = models.FileField(upload_to='downloads/linux/%Y/%m/%d/', default='', null=True, blank=True)
     description = models.TextField(default='', blank=True, null=True)
     upload_date = models.DateTimeField(auto_now=True)
+    total_downloads = models.IntegerField(default=0)
 
     def __str__(self):
         return self.filename
@@ -101,3 +103,25 @@ class DownloadFiles(models.Model):
     class Meta:
         ordering = ['-upload_date']
         verbose_name_plural = 'Download Files'
+
+
+TRANSACTION_STATUS = [
+    ('pending', 'pending'),
+    ('complete', 'complete')
+]
+
+
+class MpesaTransaction(models.Model):
+    transaction_number = models.CharField(default=uuid.uuid4, max_length=50, unique=True)
+    phone_number = models.CharField(max_length=255)
+    checkout_request_id = models.CharField(max_length=255)
+    reference = models.CharField(max_length=255)
+    description = models.TextField()
+    amount = models.CharField(max_length=255)
+    status = models.CharField(choices=TRANSACTION_STATUS, max_length=255)
+    receipt_number = models.CharField(max_length=255)
+    created_on = models.DateTimeField(auto_now_add=True)
+    ip = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return f"{self.transaction_number}"

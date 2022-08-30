@@ -3,8 +3,101 @@
 {% load static %}
 {% block content %}
 
+<div class="index">
+    <div class="post-container">
+        {% for post in post_list %}
+        <div class="index-card">
+            <div class="card-header">
+                <h3><a class="card-title" href="{% url 'blog:details' post.slug  %}">{{ post.title }}</a></h3>
+                <p class="card-subtitle"style="text-transform: capitalize;"> By {{ post.author }}&nbsp;|&nbsp;
+                {{post.created_on|date:"d-M-Y"}}&nbsp;|&nbsp;{{post.get_read_time}}&nbsp;|&nbsp;Category:&nbsp;
 
-<header class="masthead">
+                {% for category in post.category.all %}
+                <a href="{% url 'blog:category' category.name %}">
+                    {{ category.name }}</a>&nbsp;
+                {% endfor %}
+                {% if post.updated %}
+                &nbsp;|&nbsp;Updated&nbsp;{{post.updated_on|naturaltime}}
+                {% endif %}
+            </p>
+            </div>
+            <div class="card-body">
+                <div class="card-image-holder">
+                    {% if post.image %}
+                    <img class="card-image" src="{{post.image.url}}" alt="" width="100%" height="270px">
+                    {% endif %}
+                </div>
+
+                <div class="card-body-text"
+                    <p class="card-text" id="post">{{post.content|slice:":500"|safe }}</p>
+                    <a href="{% url 'blog:details' post.slug  %}" class="read-more-button">Read more &rarr;</a>
+                    <div class="comments-likes">
+
+                        {% if post.comments_count > 1 %}
+
+                        <small class=""> {{post.comments_count|intcomma}} comments</small> &nbsp;
+                        <small><a hx-get="{% url 'blog:likes' post.slug %}" hx-target="body">
+                        <i class="fa fa-heart" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
+                        &nbsp;{{post.likes|intcomma}} </small>&nbsp;
+                        <small><a hx-get="{% url 'blog:dislikes' post.slug %}" hx-target="body">
+                        <i class="fa fa-thumbs-down" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
+                        &nbsp;{{ post.dislikes|intcomma}} </small>
+
+                        {% else %}
+
+                        <small class="text-muted"> {{post.comments_count|intcomma}} comment</small> &nbsp;
+                        <small> <a hx-get="{% url 'blog:likes' post.slug %}" hx-target="body">
+                        <i class="fa fa-heart" id="like-button" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
+                        &nbsp;{{ post.likes|intcomma}} </small>&nbsp;
+                        <small> <a hx-get="{% url 'blog:dislikes' post.slug %}" hx-target="body">
+                        <i class="fa fa-thumbs-down" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
+                        &nbsp;{{ post.dislikes|intcomma}} </small>
+                        
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% include 'blog/sidebar.html' %}
+</div>
+
+<div class="page-pagination">
+    {% if post_list.has_other_pages %}
+    <ul class="pagination">
+        {% if post_list.has_previous %}
+        <li>
+            <a class="previous-arrow" href="?page={{ post_list.previous_page_number }}">&laquo;</a>
+            </li>
+        {% else %}
+        <li class="disabled">
+            <span>&laquo;</span>
+            </li>
+        {% endif %}
+        {% for i in post_list.paginator.page_range %}
+        {% if post_list.number == i %}
+            <li class="active">
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+            </li>
+        {% else %}
+            <li class="not-active">
+                <a class="not-active" href="?page={{ i }}">{{ i }}</a>
+            </li>
+        {% endif %}
+        {% endfor %}
+        {% if post_list.has_next %}
+        <li>
+            <a class="next-arrow" href="?page={{ post_list.next_page_number }}">&raquo;</a>
+            </li>
+        {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>
+
+{% comment %} <header class="masthead">
     <div class="container">
         <div class=" col-md-10 mx-auto">
             <div class="site-heading">
@@ -71,5 +164,5 @@
         </div>
         {% block sidebar %} {% include 'blog/sidebar.html' %} {% endblock sidebar %}
     </div>
-</div>
+</div> {% endcomment %}
 {%endblock%}

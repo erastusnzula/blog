@@ -6,10 +6,12 @@
 
 /* VARIABLE DEFINITIONS */
 :root {
-  --primary: #79aec8;
-  --secondary: #417690;
+  --hue-color : 271;
+  --primary: hsl(var(--hue-color), 76%, 53%);;
+  --secondary: hsl(var(--hue-color), 76%, 53%);;
   --accent: #f5dd5d;
   --primary-fg: #fff;
+  
 
   --body-fg: #333;
   --body-bg: #fff;
@@ -25,8 +27,8 @@
   --breadcrumbs-link-fg: var(--body-bg);
   --breadcrumbs-bg: var(--primary);
 
-  --link-fg: #447e9b;
-  --link-hover-color: #036;
+  --link-fg: var(--primary);
+  --link-hover-color: hsl(var(--hue-color), 100%, 70%);
   --link-selected-fg: #5b80b2;
 
   --hairline-color: #e8e8e8;
@@ -71,7 +73,8 @@
     --breadcrumbs-bg: var(--primary);
 
     --link-fg: #81d4fa;
-    --link-hover-color: #4ac1f7;
+    /* --link-hover-color: #4ac1f7; */
+    --link-hover-color: hsl(var(--hue-color), 100%, 70%);
     --link-selected-fg: #6f94c6;
 
     --hairline-color: #272727;
@@ -533,7 +536,7 @@ a.button {
 .button:active, input[type=submit]:active, input[type=button]:active,
 .button:focus, input[type=submit]:focus, input[type=button]:focus,
 .button:hover, input[type=submit]:hover, input[type=button]:hover {
-    background: var(--button-hover-bg);
+    background: var(--link-hover-color);
 }
 
 .button[disabled], input[type=submit][disabled], input[type=button][disabled] {
@@ -550,7 +553,7 @@ a.button {
 .button.default:active, input[type=submit].default:active,
 .button.default:focus, input[type=submit].default:focus,
 .button.default:hover, input[type=submit].default:hover {
-    background: var(--default-button-hover-bg);
+    background: var(--link-hover-color);
 }
 
 .button[disabled].default,

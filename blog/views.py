@@ -8,9 +8,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django_daraja.mpesa.core import MpesaClient
 
 from blog.forms import ProfileForm, UserForm, CommentForm, ContactForm
 from blog.models import Post, Profile, Comment, Contact, Setting, Category, DownloadFiles
@@ -18,21 +21,33 @@ from blog.models import Post, Profile, Comment, Contact, Setting, Category, Down
 
 class Posts(View):
     def get(self, *args, **kwargs):
-        post_list = Post.objects.filter(status=1)
+        posts_list = Post.objects.filter(status=1)
         settings = Setting.objects.all()
+        page = self.request.GET.get('page', 1)
+        paginator = Paginator(posts_list, 2)
+        try:
+            post_list = paginator.page(page)
+        except PageNotAnInteger:
+            post_list = paginator.page(1)
+        except EmptyPage:
+            post_list = paginator.page(paginator.num_pages)
+            
         context = {
             'post_list': post_list,
+            'posts_list': posts_list,
             'settings': settings,
         }
         return render(self.request, 'blog/index.html', context)
     # template_name = 'blog/index.html'
     # queryset = Post.objects.filter(status=1)
+    
 
 
 class PostDetails(View):
     def get(self, request, slug):
         post = Post.objects.get(slug=slug)
-        form = CommentForm()
+        posts_list = Post.objects.filter(status=1)
+        #form = CommentForm()
         comments = Comment.objects.filter(post=post).order_by('-added_on')
         number_of_comments = comments.count()
         post.comments_count = number_of_comments
@@ -41,9 +56,10 @@ class PostDetails(View):
         settings = Setting.objects.all()
         context = {
             'post': post,
-            'form': form,
+            #'form': form,
             'comments': comments,
             'settings': settings,
+            'posts_list':posts_list,
             'number_of_comments': number_of_comments,
         }
         return render(request, 'blog/details.html', context)
@@ -52,8 +68,8 @@ class PostDetails(View):
         post = Post.objects.get(slug=slug)
         form = CommentForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            content = form.cleaned_data.get('content')
+            username = self.request.POST.get('username')
+            content = self.request.POST.get('content')
             comment = Comment()
             comment.username = username
             comment.content = content
@@ -158,22 +174,22 @@ def user_logout(request):
 
 class UserContact(View):
     def get(self, *args, **kwargs):
-        form = ContactForm()
-        context = {
-            'form': form
-        }
-        return render(self.request, 'blog/contact.html', context)
+        # form = ContactForm()
+        # context = {
+        #     'form': form
+        # }
+        return render(self.request, 'blog/contact.html')
 
     def post(self, *args, **kwargs):
         form = ContactForm(self.request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('email')
-            message = form.cleaned_data.get('message')
+            email = self.request.POST.get('email')
+            message = self.request.POST.get('message')
             contact = Contact()
             contact.email = email
             contact.message = message
             contact.save()
-            send_mail(os.environ.get('EMAIL_HOST_USER'), os.environ.get('EMAIL_HOST_PASSWORD'))
+            #send_mail(os.environ.get('EMAIL_HOST_USER'), os.environ.get('EMAIL_HOST_PASSWORD'))
             messages.success(self.request, 'Message sent successfully.')
             return redirect('blog:contact')
         else:
@@ -240,19 +256,31 @@ def dislike_post_details(request, slug):
 
 class PostCategory(View):
     def get(self, request, category, *args, **kwargs):
-        posts = Post.objects.filter(category__name__contains=category, status=1)
+        all_posts = Post.objects.filter(category__name__contains=category, status=1)
         settings = Setting.objects.all()
+        page = self.request.GET.get('page', 1)
+        paginator = Paginator(all_posts, 2)
+        posts_list = Post.objects.filter(status=1)
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+            
         context = {
             'post_list': posts,
             'category': category,
             'settings': settings,
+            'posts_list': posts_list,
         }
         return render(self.request, 'blog/category.html', context)
 
 
 def all_categories(request):
     categories = Category.objects.all()
-    return {'categories': categories}
+    last_category = Category.objects.all().last()
+    return {'categories': categories, 'last_category': last_category}
 
 
 def send_mail(email_address, email_password):
@@ -276,9 +304,12 @@ def send_mail(email_address, email_password):
 
 
 class Download(View):
+
     def get(self, *args, **kwargs):
         files = DownloadFiles.objects.all()
         context = {
-            'files': files
+            'files': files,
         }
         return render(self.request, 'blog/download.html', context)
+
+

@@ -1,34 +1,42 @@
 {% load static %}
-{% block sidebar %}
 
-
-<!-- Sidebar Widgets Column -->
-<div class="col-md-4 float-right">
-    {% for setting in settings %}
-    <div class="card my-3 w3-hide-small">
-        <h5 class="card-header">About Me</h5>
-        <div class="card-body">
-
-            <p class="card-text"> {{setting.about|slice:":100"}}...</p>
-            <button class="btn btn-danger" hx-get="{% url 'blog:settings' %}" hx-target="body">Read more
-            </button>
+<div class="side-bar">
+    <div class="about-card-header">
+        <img class="about-image" src="{% static 'images/s.png' %}" alt="">
+        <div class="about-header-content">
+            <h5 class="about-header">Erastus Nzula</h5>
+            <p class="about-header">Software developer</p>
+            <a href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw" class="twitter-follow-button"
+            data-show-screen-name="false" data-show-count="false" target="_blank">Follow @erastus_nzula</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
     </div>
-    {% endfor %}
-    <div class="container" style="max-height: 50em; overflow: scroll;">
-        <div class="card">
-            <div class="mt-2 ml-2">
-                <a href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw" class="twitter-follow-button"
-                   data-show-count="false" target="_blank">Follow @erastus_nzula</a>
-                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <div class="about-body">
+        {% comment %} {% for setting in settings %}
+        <p class="card-text"> {{setting.about|slice:":100"}}&nbsp;
+        <a class="read-more-button" hx-get="{% url 'blog:settings' %}" hx-target="body">read more</a></p>    
+        {% endfor %} {% endcomment %}
+        <div class="posts-titles-container">
+            <h3 class="posts-titles-sidebar">Recent articles</h3>
+            {% for post in posts_list %}
+            <div class="posts-titles">
+               {{forloop.counter}}. <a class="posts-titles-link" href="{% url 'blog:details' post.slug  %}">{{ post.title }}</a>
             </div>
-            <a class="twitter-timeline" data-chrome="nofooter transparent" target="_blank"
-               href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw">Tweets by erastus_nzula</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            {% endfor%}
+        </div>
 
+        <div class="twitter-feed">
+            {% comment %} <a href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw" class="twitter-follow-button"
+            data-show-screen-name="false" data-show-count="false" target="_blank">Follow @erastus_nzula</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> {% endcomment %}
+    
+            <div>
+                <a class="twitter-timeline" data-height="640" href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw">
+                    Tweets by erastus_nzula</a> 
+                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+
+            
         </div>
     </div>
 </div>
-
-
-{% endblock sidebar %}
