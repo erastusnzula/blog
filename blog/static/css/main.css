@@ -287,6 +287,11 @@ a:hover{
   .posts-titles-sidebar{
     padding: 0rem 2rem;
     text-decoration: underline;
+    
+  }
+  .g{
+    height: 200px;
+    overflow: auto;
   }
 
   .posts-titles{
@@ -561,6 +566,8 @@ a:hover{
 
   .not-active{
       font-size: var(--font-size-normal);
+      margin-left: 1rem;
+      margin-right: 1rem;
   }
 
   .not-active:visited{

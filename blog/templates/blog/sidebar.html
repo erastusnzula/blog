@@ -18,11 +18,13 @@
         {% endfor %} {% endcomment %}
         <div class="posts-titles-container">
             <h3 class="posts-titles-sidebar">Recent articles</h3>
+            <div class="g">
             {% for post in posts_list %}
             <div class="posts-titles">
                {{forloop.counter}}. <a class="posts-titles-link" href="{% url 'blog:details' post.slug  %}">{{ post.title }}</a>
             </div>
             {% endfor%}
+        </div>
         </div>
 
         <div class="twitter-feed">
@@ -31,7 +33,7 @@
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> {% endcomment %}
     
             <div>
-                <a class="twitter-timeline" data-height="640" href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw">
+                <a class="twitter-timeline" data-height="530" href="https://twitter.com/erastus_nzula?ref_src=twsrc%5Etfw">
                     Tweets by erastus_nzula</a> 
                     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
