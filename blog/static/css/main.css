@@ -425,13 +425,21 @@ a:hover{
       margin-left: 0;
   }
   
-  .messages{
+  .warning{
       display: flex;
       background-color: #f00000;
       padding: 1rem;
       justify-content: space-between;
 
   }
+
+  .success{
+    display: flex;
+    background-color: #00f00c;
+    padding: 1rem;
+    justify-content: space-between;
+
+}
   .message{
       color: var(--link-color);
   }

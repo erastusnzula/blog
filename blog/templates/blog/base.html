@@ -82,7 +82,7 @@
 
 <div>
     {% for message in messages %}
-    <div class="messages" id="messages">
+    <div class="{{message.tags}}" id="messages">
         <div class="message">
             {{message}}
         </div>

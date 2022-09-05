@@ -133,12 +133,14 @@ const showSideBar = document.querySelector(".show-about-me")
 const postContainer = document.querySelector(".post-container")
 const getSideBar = document.querySelector(".side-bar")
 const postsTitles = document.querySelector(".posts-titles-container")
+const getPagination = document.querySelector(".page-pagination")
 
 if(getSideBar){
   showSideBar.addEventListener("click",()=>{
     getSideBar.classList.toggle("active")
     postContainer.classList.toggle("in-active")
     postsTitles.style.display='none'
+    getPagination.style.display="none"
   
 })
 }

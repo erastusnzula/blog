@@ -29,27 +29,27 @@
                     {% endif %}
                 </div>
 
-                <div class="card-body-text"
+                <div class="card-body-text">
                     <p class="card-text" id="post">{{post.content|safe }}</p>
                     <div class="comments-likes-details">
 
                         {% if post.comments_count > 1 %}
 
                         <small class=""> {{post.comments_count|intcomma}}<span class="comment-title"> comments</span></small> &nbsp;
-                        <small><a hx-get="{% url 'blog:likes-details' post.slug %}" hx-target="body">
+                        <small><a href="{% url 'blog:likes-details' post.slug %}" hx-target="body">
                         <i class="fa fa-heart like-button" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
                         &nbsp;{{post.likes|intcomma}} </small>&nbsp;
-                        <small><a hx-get="{% url 'blog:dislikes-details' post.slug %}" hx-target="body">
+                        <small><a href="{% url 'blog:dislikes-details' post.slug %}" hx-target="body">
                         <i class="fa fa-thumbs-down like-button" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
                         &nbsp;{{ post.dislikes|intcomma}} </small>
 
                         {% else %}
 
                         <small class="text-muted"> {{post.comments_count|intcomma}} <span class="comment-title"> comment</span></small> &nbsp;
-                        <small> <a hx-get="{% url 'blog:likes-details' post.slug %}" hx-target="body">
+                        <small> <a href="{% url 'blog:likes-details' post.slug %}" hx-target="body">
                         <i class="fa fa-heart like-button" id="like-button" aria-hidden="true" style="{{post.like_button_color}};"></i></a>
                         &nbsp;{{ post.likes|intcomma}} </small>&nbsp;
-                        <small> <a hx-get="{% url 'blog:dislikes-details' post.slug %}" hx-target="body">
+                        <small> <a href="{% url 'blog:dislikes-details' post.slug %}" hx-target="body">
                         <i class="fa fa-thumbs-down like-button" aria-hidden="true" style="{{post.dislike_button_color}};"></i></a>
                         &nbsp;{{ post.dislikes|intcomma}} </small>
                         
@@ -77,7 +77,7 @@
                         </div>
 
                         <div class="comment-form">
-                            <form hx-encoding='multipart/form-data' hx-post="." hx-target="body">
+                            <form action="." enctype='multipart/form-data' method="post">
                                 {% csrf_token %}
                                 <div class="leave-comment">
                                     <h5 class="leave-comment-title">Leave a comment</h5>

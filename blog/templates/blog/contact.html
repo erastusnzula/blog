@@ -4,7 +4,7 @@
 {% block content %}
 
 <div>
-    <form class="contact-form" id="contact-form" onsubmit="return validateForm()" hx-encoding='multipart/form-data' hx-post="." hx-target="body">
+    <form action="." class="contact-form" id="contact-form" enctype="multipart/form-data" onsubmit="return validateForm()" method="post">
         {% csrf_token %}
         <h5 class="contact-title">Contact me</h5>
         <div class="contact-email-label">
